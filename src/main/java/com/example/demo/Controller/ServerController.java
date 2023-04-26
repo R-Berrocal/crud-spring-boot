@@ -57,6 +57,9 @@ public class ServerController {
         if( serverUpdate.getProcessor() != null) {
             server.setProcessor(serverUpdate.getProcessor());
         }
+        if( serverUpdate.getOs() != null) {
+            server.setOs(serverUpdate.getOs());
+        }
         this.serverRepository.save(server);
         return ResponseEntity.status(HttpStatus.OK).body(server);
     }

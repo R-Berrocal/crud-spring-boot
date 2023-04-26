@@ -21,6 +21,7 @@ public class Aplication {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    private String version;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Server server;
 

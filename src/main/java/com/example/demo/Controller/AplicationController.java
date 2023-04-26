@@ -53,6 +53,9 @@ public class AplicationController {
         if (aplicationUpdate.getName() != null) {
             aplication.setName(aplicationUpdate.getName());
         }
+        if (aplicationUpdate.getVersion() != null) {
+            aplication.setVersion(aplicationUpdate.getVersion());
+        }
         if (aplicationUpdate.getServer() != null) {
             aplication.setServer(aplicationUpdate.getServer());
         }
