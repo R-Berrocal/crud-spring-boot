@@ -2,10 +2,14 @@ package com.example.demo.Models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -35,8 +39,9 @@ public class Server {
     private String location;
     private String os;
 
-    @OneToMany(mappedBy = "server", fetch = FetchType.LAZY)
-    @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Aplication> aplication;
+    @OneToMany(mappedBy = "server", fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
+    @JsonProperty(access = Access.READ_WRITE)
+    @JsonIgnoreProperties("server")
+    private List<Aplication> aplications;
 
 }
