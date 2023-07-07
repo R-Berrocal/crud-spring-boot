@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.software.Controller;
 
 import java.util.List;
 
@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Models.Server;
-import com.example.demo.Repositories.ServerRepository;
+import com.example.software.Models.Server;
+import com.example.software.Repositories.ServerRepository;
+import com.example.software.Repositories.ServerSpecs;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -39,25 +40,25 @@ public class ServerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        if( serverUpdate.getDisk() != null) {
+        if (serverUpdate.getDisk() != null) {
             server.setDisk(serverUpdate.getDisk());
         }
-        if( serverUpdate.getIp()  != null) {
+        if (serverUpdate.getIp() != null) {
             server.setIp(serverUpdate.getIp());
         }
-        if( serverUpdate.getLocation() != null) {
+        if (serverUpdate.getLocation() != null) {
             server.setLocation(serverUpdate.getLocation());
         }
-        if( serverUpdate.getMemory() != null) {
+        if (serverUpdate.getMemory() != null) {
             server.setMemory(serverUpdate.getMemory());
         }
-        if( serverUpdate.getName() != null) {
+        if (serverUpdate.getName() != null) {
             server.setName(serverUpdate.getName());
         }
-        if( serverUpdate.getProcessor() != null) {
+        if (serverUpdate.getProcessor() != null) {
             server.setProcessor(serverUpdate.getProcessor());
         }
-        if( serverUpdate.getOs() != null) {
+        if (serverUpdate.getOs() != null) {
             server.setOs(serverUpdate.getOs());
         }
         this.serverRepository.save(server);
@@ -65,23 +66,29 @@ public class ServerController {
     }
 
     @RequestMapping(value = "/server/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Server> getServer(@PathVariable int id){
+    public ResponseEntity<Server> getServer(@PathVariable int id) {
         Server server = this.serverRepository.findById(id).orElse(null);
-        if(server == null) {
+        if (server == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(server);
     }
 
     @RequestMapping(value = "/server/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Server> deleteServer(@PathVariable int id){
+    public ResponseEntity<Server> deleteServer(@PathVariable int id) {
         Server server = this.serverRepository.findById(id).orElse(null);
-        if(server == null) {
+        if (server == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         this.serverRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body(server);
     }
-}
 
+    @RequestMapping(value = "/serverWithMultipleAplications", method = RequestMethod.GET)
+    public ResponseEntity<List<Server>> getServersWithMultipleAplications() {
+        List<Server> servers = (List<Server>) this.serverRepository
+                .findAll(ServerSpecs.serversWithMultipleApplications());
+        return ResponseEntity.status(HttpStatus.OK).body(servers);
+    }
+}
